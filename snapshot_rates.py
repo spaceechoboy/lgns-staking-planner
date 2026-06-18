@@ -19,6 +19,9 @@ ANU_L600 = "0x04eD22c6d1D020A9B5e032E93D79ab28293EF72f"
 S_EPOCH = "0x900cf0cf"; S_CIRC = "0x9358928b"; S_TOTAL = "0x18160ddd"; S_INFO = "0x2e340599"
 S_INDEX = "0x2986c0e5"; S_EXTRA = "0xb01d3563"; S_STAKES = "0x584b62a1"
 SLOT_GI = "0x6b"; SLOT_EP = "0x6c"; SLOT_DEN = "0x71"   # Anubis globalIndex / epoch / denom (vault 확정)
+# Polygon LONG 추가보상: globalIndex 0x6a · epoch 0x6b · 율 denom = 1e9 (slot 0x71의 2e10은 율 denom 아님)
+# 에폭 12h(카운터 7일 2/day 확정), gi-delta = ref-스테이커와 2방식 일치 — vault [[polygon-extra-reward-rate]] 2026-06-19
+POLY_SLOT_GI = "0x6a"; POLY_SLOT_EP = "0x6b"; POLY_EXTRA_DENOM = 10 ** 9
 SEED = {"rebasePoly": 0.1487, "rebaseSched": 0.1397, "rebaseAnu": 0.15,
         "poly360": 0.12, "poly600": 0.0783, "anu360": 0.15, "anu600": 0.195}
 # Anubis 복리 리베이스 = 6h 에폭 · 0.15%/epoch (APY ~778%) — vault [[anubis-rebase-epoch-operator-schedule]]
@@ -54,6 +57,7 @@ def poly(method, params):
 def call_poly(to, data): return poly("eth_call", [{"to": to, "data": data}, "latest"])
 def call_anu(to, data): return rpc(ANU_RPC, "eth_call", [{"to": to, "data": data}, "latest"])
 def store_anu(addr, slot): return rpc(ANU_RPC, "eth_getStorageAt", [addr, slot, "latest"])
+def store_poly(addr, slot): return poly("eth_getStorageAt", [addr, slot, "latest"])
 def addr32(a): return a.lower().replace("0x", "").rjust(64, "0")
 def idx32(i): return format(i, "x").rjust(64, "0")
 
@@ -107,26 +111,25 @@ def main():
     info1 = call_poly(DISTRIB, S_INFO + idx32(1))
     sched = round(word(info1, 0) / 1e6 * 100, 4) if info1 else SEED["rebaseSched"]
 
-    # ── Polygon extra (extraInterest(ref,0) ÷ 원금, epoch-time 델타) ──
-    def poly_extra(ctr, ref, seed_key, prev_node):
-        accum = call_poly(ctr, S_EXTRA + addr32(ref) + idx32(0))
-        stk = call_poly(ctr, S_STAKES + addr32(ref) + idx32(0))
-        if not accum or not stk:
-            return {"pctPerEpoch": SEED[seed_key], "epochH": 12, "accum": None, "principal": None}
-        accum_now = word(accum, 0); principal = word(stk, 0) / 1e9
-        node = {"pctPerEpoch": SEED[seed_key], "epochH": 12, "accum": str(accum_now), "principal": round(principal, 4)}
-        if prev_node and prev_node.get("accum") and principal > 0:
-            deps = epochs_between(pv.get("generated"), now, 12)
-            if deps and deps >= MIN_DEPS:
-                ratio = (accum_now - int(prev_node["accum"])) / (principal * 1e9)
-                node["pctPerEpoch"] = clamp(ratio / deps * 100, prev_node.get("pctPerEpoch", SEED[seed_key]))
+    # ── Polygon extra (globalIndex 0x6a / epoch 0x6b / denom 1e9, epoch-counter 델타 — ref-스테이커 불요) ──
+    def poly_extra(ctr, seed_key, prev_node):
+        gi = store_poly(ctr, POLY_SLOT_GI); epc = store_poly(ctr, POLY_SLOT_EP)
+        if not gi or not epc:
+            return {"pctPerEpoch": SEED[seed_key], "epochH": 12, "globalIndex": None, "epoch": None, "denom": str(POLY_EXTRA_DENOM)}
+        gi_now = int(gi, 16); ep_now = int(epc, 16)
+        node = {"pctPerEpoch": SEED[seed_key], "epochH": 12, "globalIndex": str(gi_now), "epoch": ep_now, "denom": str(POLY_EXTRA_DENOM)}
+        if prev_node and prev_node.get("globalIndex") and prev_node.get("epoch") is not None:
+            dep = ep_now - int(prev_node["epoch"])
+            if dep > 0:
+                node["pctPerEpoch"] = clamp((gi_now - int(prev_node["globalIndex"])) / dep / POLY_EXTRA_DENOM * 100,
+                                            prev_node.get("pctPerEpoch", SEED[seed_key]))
         return node
 
     out = {"schema": 1, "generated": gen,
            "poly": {"block": pblock,
                     "rebase": {"pctPerEpoch": rebasePoly, "sched": sched, "epochH": 6},
-                    "extra": {"long360": poly_extra(LONG360, REF360, "poly360", pv.get("poly", {}).get("extra", {}).get("long360")),
-                              "long600": poly_extra(LONG600, REF600, "poly600", pv.get("poly", {}).get("extra", {}).get("long600"))}},
+                    "extra": {"long360": poly_extra(LONG360, "poly360", pv.get("poly", {}).get("extra", {}).get("long360")),
+                              "long600": poly_extra(LONG600, "poly600", pv.get("poly", {}).get("extra", {}).get("long600"))}},
            "anubis": {}}
 
     # ── Anubis rebase (index-delta) ──
