@@ -27,155 +27,104 @@
   .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;
     box-shadow:0 0 0 1px rgba(159,232,112,.04),0 10px 30px rgba(0,0,0,.35);margin-bottom:20px;}
   .card h2{font-size:13px;text-transform:uppercase;letter-spacing:.8px;color:var(--green-dim);margin:0 0 14px;}
-  .card h3{font-size:11.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin:16px 0 6px;}
+  .card h3{font-size:11.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin:14px 0 6px;}
   .card h3.poly{color:var(--poly);} .card h3.anub{color:var(--anub);}
-  label{display:block;font-size:12px;color:var(--muted);margin:10px 0 4px;}
-  input,select{width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--text);
+  label{display:block;font-size:12px;color:var(--muted);margin:8px 0 4px;}
+  input{width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--text);
     border-radius:9px;padding:8px 10px;font-size:13px;outline:none;transition:border-color .15s,box-shadow .15s;}
-  input:focus,select:focus{border-color:var(--green-dim);box-shadow:0 0 0 3px rgba(159,232,112,.12);}
+  input:focus{border-color:var(--green-dim);box-shadow:0 0 0 3px rgba(159,232,112,.12);}
+  input[readonly]{background:rgba(159,232,112,.04);border-style:dashed;color:var(--green);font-weight:700;cursor:default;font-family:ui-monospace,Menlo,monospace;}
+  input[readonly]:focus{box-shadow:none;border-color:var(--line);}
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-  .row4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
   .btn{width:100%;margin-top:16px;background:var(--green);color:#08120a;font-weight:700;border:none;
     border-radius:10px;padding:12px;cursor:pointer;font-size:14px;box-shadow:0 0 18px rgba(159,232,112,.35);}
   .btn:hover{filter:brightness(1.05);}
-  .btn.ghost{background:transparent;color:var(--green);border:1px dashed var(--green-dim);box-shadow:none;font-weight:600;}
-  .btn.sm{width:auto;padding:6px 10px;font-size:12px;margin:0;}
-  .wallet{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:12px;margin-bottom:10px;}
-  .wallet .whead{display:flex;gap:8px;align-items:center;margin-bottom:6px;}
-  .wallet .whead input{flex:1;}
-  .wallet .del{background:transparent;border:1px solid var(--line);color:var(--red);border-radius:8px;
-    padding:6px 9px;cursor:pointer;font-size:12px;}
-  .chainlbl{font-size:10.5px;letter-spacing:.4px;text-transform:uppercase;margin:8px 0 3px;}
+  .chainlbl{font-size:10.5px;letter-spacing:.4px;text-transform:uppercase;margin:10px 0 3px;font-weight:700;}
   .chainlbl.poly{color:var(--poly);} .chainlbl.anub{color:var(--anub);}
   table{width:100%;border-collapse:collapse;margin-top:4px;font-variant-numeric:tabular-nums;}
-  th,td{padding:8px 7px;text-align:right;border-bottom:1px solid var(--line);font-size:12px;}
+  th,td{padding:7px 7px;text-align:right;border-bottom:1px solid var(--line);font-size:12.5px;}
   th{color:var(--green-dim);font-weight:600;text-transform:uppercase;font-size:10px;letter-spacing:.5px;}
   td:first-child,th:first-child{text-align:left;}
-  tr.total td{border-top:2px solid var(--green-dim);font-weight:700;color:var(--green);border-bottom:none;}
+  tr.sub td{color:var(--muted);font-size:11.5px;border-bottom:none;}
+  tr.total td{border-top:2px solid var(--green-dim);font-weight:700;color:var(--green);}
+  .eta{margin-top:14px;display:flex;gap:12px;flex-wrap:wrap;}
+  .eta .box{flex:1;min-width:150px;background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:12px 14px;}
+  .eta .lab{font-size:11px;color:var(--muted);}
+  .eta .val{font-size:20px;font-weight:800;color:var(--green);font-variant-numeric:tabular-nums;margin-top:2px;}
+  .eta .val.miss{color:var(--red);font-size:15px;}
   .big{color:var(--green);font-weight:700;} .miss{color:var(--red);font-weight:600;}
-  .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;
-    background:rgba(159,232,112,.12);color:var(--green);border:1px solid var(--green-dim);}
-  .pill.bad{background:rgba(255,122,122,.12);color:var(--red);border-color:var(--red);}
   .note{color:var(--muted);font-size:11.5px;margin-top:14px;line-height:1.6;border-top:1px dashed var(--line);padding-top:12px;}
-  details{margin-top:10px;} summary{cursor:pointer;color:var(--green-dim);font-size:12px;}
   .legend{font-size:11px;color:var(--muted);margin-top:8px;display:flex;gap:14px;flex-wrap:wrap;}
   .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle;}
-  .seg{display:flex;gap:6px;margin-top:4px;}
-  .seg button{flex:1;background:var(--panel2);color:var(--muted);border:1px solid var(--line);
-    border-radius:9px;padding:7px;cursor:pointer;font-size:12px;}
-  .seg button.on{background:rgba(159,232,112,.14);color:var(--green);border-color:var(--green-dim);}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>스테이킹 도달일정 계산기 — Polygon + Anubis · PWA</h1>
-  <p class="sub">지갑별 독립 트랙 · 복리 리베이스는 체인당 1율(정상·장기 공통) · 360/600 추가보상은 상품별 실측 자동 · 향후 2년 곡선.
-    이율은 <b>%</b> 단위로 입력. 가정값 기반 명목 시뮬레이션이며 실제 시장가 유지와는 별개.</p>
+  <h1>스테이킹 도달일정 계산기 — Polygon + Anubis</h1>
+  <p class="sub">각 체인·상품 LGNS 개수만 입력 · 보상률은 온체인 실측 자동(표시전용·근거 링크) · 복리 리베이스는 체인당 1율 · 향후 2년 곡선.
+    가정값 기반 명목 시뮬레이션이며 실제 시장가 유지와는 별개.</p>
 
   <div class="grid">
     <!-- ===== 왼쪽: 입력 ===== -->
     <div>
-      <!-- 전역 설정 -->
+      <!-- 보유 개수 -->
       <div class="card">
-        <h2>전역 설정</h2>
-
-        <h3 class="poly">◆ Polygon 복리 리베이스 (정상·장기 공통)</h3>
-        <div class="row2">
-          <div><label>복리 r (%)</label><input id="rc_poly" type="number" step="0.0001" value="0.1487"/></div>
-          <div><label>복리 h(시간)</label><input id="hc_poly" type="number" value="6"/></div>
+        <h2>보유 개수 (각 체인·상품)</h2>
+        <div class="chainlbl poly">◆ Polygon</div>
+        <div class="row3">
+          <div><label>360</label><input id="h_p360" type="number" min="0" step="any" placeholder="0"/></div>
+          <div><label>600</label><input id="h_p600" type="number" min="0" step="any" placeholder="0"/></div>
+          <div><label>일반</label><input id="h_pn" type="number" min="0" step="any" placeholder="0"/></div>
         </div>
-        <h3 class="poly">◆ Polygon 추가보상 단리 (상품별)</h3>
-        <div class="row4">
-          <div><label>360 r (%)</label><input id="rs_p360" type="number" step="0.0001" value="0.1200"/></div>
-          <div><label>600 r (%)</label><input id="rs_p600" type="number" step="0.0001" value="0.0783"/></div>
-          <div><label>단리 h(시간)</label><input id="hs_poly" type="number" value="12"/></div>
-          <div></div>
-        </div>
-
-        <h3 class="anub">◆ Anubis 복리 리베이스 (정상·장기 공통)</h3>
-        <div class="row2">
-          <div><label>복리 r (%)</label><input id="rc_anu" type="number" step="0.0001" value="0.1500"/></div>
-          <div><label>복리 h(시간)</label><input id="hc_anu" type="number" value="12"/></div>
-        </div>
-        <h3 class="anub">◆ Anubis 추가보상 단리 (상품별)</h3>
-        <div class="row4">
-          <div><label>360 r (%)</label><input id="rs_a360" type="number" step="0.0001" value="0.1500"/></div>
-          <div><label>600 r (%)</label><input id="rs_a600" type="number" step="0.0001" value="0.1950"/></div>
-          <div><label>단리 h(시간)</label><input id="hs_anu" type="number" value="12"/></div>
-          <div></div>
-        </div>
-
-        <h3>단리 보상 재투자 (장기 → 일반 스테이킹 복리화)</h3>
-        <label style="display:flex;align-items:center;gap:8px;">
-          <input id="ri_on" type="checkbox" style="width:auto;" checked/>
-          장기 스테이킹의 단리 보상을 모아 정상 스테이킹(=체인 리베이스)으로 재투자
-        </label>
-        <div class="row2" style="margin-top:6px;">
-          <div><label>재투자 주기 (일)</label><input id="ri_every" type="number" step="0.5" value="2"/></div>
-          <div style="display:flex;align-items:flex-end;"><span class="ri-hint" id="ri_hint" style="font-size:11px;color:var(--muted);padding-bottom:8px;"></span></div>
-        </div>
-
-        <div class="row2">
-          <div><label>가정단가 $ (두 체인 공통)</label><input id="price" type="number" step="0.01" value="4.00"/></div>
-          <div><label>락업 상한 (일, 도달탐색)</label><input id="lock" type="number" value="730"/></div>
-        </div>
-        <div class="row2">
-          <div><label>그래프/곡선 표시 일수 (기본 730=2년)</label><input id="gdays" type="number" value="730"/></div>
-          <div><label>모드</label>
-            <div class="seg" id="pmode">
-              <button data-v="0" class="on">연속</button>
-              <button data-v="1">이산</button>
-            </div>
-          </div>
-        </div>
-
-        <h3>목표 (수동 설정)</h3>
-        <div class="row2">
-          <div><label>목표 개수 (전체 합산)</label><input id="t_count" type="number" value="12500"/></div>
-          <div><label>목표 가치 $ (전체 합산)</label><input id="t_value" type="number" value="50000"/></div>
+        <div class="chainlbl anub">◆ Anubis</div>
+        <div class="row3">
+          <div><label>360</label><input id="h_a360" type="number" min="0" step="any" placeholder="0"/></div>
+          <div><label>600</label><input id="h_a600" type="number" min="0" step="any" placeholder="0"/></div>
+          <div><label>일반</label><input id="h_an" type="number" min="0" step="any" placeholder="0"/></div>
         </div>
       </div>
 
-      <!-- 지갑 -->
+      <!-- 목표·가정 -->
       <div class="card">
-        <h2>지갑 (독립 트랙)</h2>
-        <div id="wallets"></div>
-        <button class="btn ghost" id="addw">+ 지갑 추가</button>
-
-        <details>
-          <summary>분배 도우미 (추가 토큰 D를 지갑들에 나눔)</summary>
-          <div style="margin-top:10px;">
-            <label>대상 버킷</label>
-            <select id="d_bucket">
-              <option value="p360">Polygon · 360</option>
-              <option value="p600">Polygon · 600</option>
-              <option value="pn">Polygon · 일반</option>
-              <option value="a360">Anubis · 360</option>
-              <option value="a600">Anubis · 600</option>
-              <option value="an" selected>Anubis · 일반</option>
-            </select>
-            <div class="row2">
-              <div><label>추가 총량 D</label><input id="d_total" type="number" value="9384"/></div>
-              <div><label>모드</label>
-                <select id="d_mode">
-                  <option value="value_equal">가치균등</option>
-                  <option value="count_equal">개수균등</option>
-                </select>
-              </div>
-            </div>
-            <div class="row2">
-              <div><label>기존분 단가 $</label><input id="d_pe" type="number" step="0.01" value="3.88"/></div>
-              <div><label>신규분 단가 $</label><input id="d_pn" type="number" step="0.01" value="4.30"/></div>
-            </div>
-            <label style="display:flex;align-items:center;gap:8px;margin-top:10px;">
-              <input id="d_int" type="checkbox" style="width:auto;"/> 정수 분배 (잔차 흡수)
-            </label>
-            <button class="btn sm ghost" id="d_apply" style="margin-top:10px;width:100%;">선택 버킷에 분배 적용</button>
-            <div id="d_check" style="font-size:11px;color:var(--muted);margin-top:8px;"></div>
-          </div>
-        </details>
-
+        <h2>목표 · 가정</h2>
+        <div class="row2">
+          <div><label>목표 개수</label><input id="t_count" type="number" value="12500"/></div>
+          <div><label>목표 가치 $</label><input id="t_value" type="number" value="50000"/></div>
+        </div>
+        <div class="row3">
+          <div><label>가정단가 $</label><input id="price" type="number" step="0.01" value="4.00"/></div>
+          <div><label>락업 상한(일)</label><input id="lock" type="number" value="730"/></div>
+          <div><label>곡선 일수</label><input id="gdays" type="number" value="730"/></div>
+        </div>
         <button class="btn" id="calc">계산</button>
+      </div>
+
+      <!-- 온체인 실측 보상률 (표시전용) -->
+      <div class="card">
+        <h2>온체인 실측 보상률 <span style="font-size:10px;color:var(--muted);text-transform:none;letter-spacing:0">· 자동 · 표시전용</span></h2>
+        <h3 class="poly">◆ Polygon 복리 리베이스</h3>
+        <div class="row2">
+          <div><label>리베이스 (%/에폭)</label><input id="rc_poly" readonly value="0.1487"/></div>
+          <div><label>에폭 (시간)</label><input id="hc_poly" readonly value="6"/></div>
+        </div>
+        <h3 class="poly">◆ Polygon 추가보상 단리 (상품별)</h3>
+        <div class="row2">
+          <div><label>360 (%/에폭)</label><input id="rs_p360" readonly value="0.1200"/></div>
+          <div><label>600 (%/에폭)</label><input id="rs_p600" readonly value="0.0783"/></div>
+        </div>
+        <h3 class="anub">◆ Anubis 복리 리베이스</h3>
+        <div class="row2">
+          <div><label>리베이스 (%/에폭)</label><input id="rc_anu" readonly value="0.0750"/></div>
+          <div><label>에폭 (시간)</label><input id="hc_anu" readonly value="6"/></div>
+        </div>
+        <h3 class="anub">◆ Anubis 추가보상 단리 (상품별)</h3>
+        <div class="row2">
+          <div><label>360 (%/에폭)</label><input id="rs_a360" readonly value="0.1500"/></div>
+          <div><label>600 (%/에폭)</label><input id="rs_a600" readonly value="0.1950"/></div>
+        </div>
+        <input id="hs_poly" type="hidden" value="12"/>
+        <input id="hs_anu" type="hidden" value="12"/>
       </div>
     </div>
 
@@ -183,14 +132,9 @@
     <div>
       <div class="card">
         <h2>결과</h2>
-        <div id="summary" style="font-size:12px;color:var(--muted);margin-bottom:6px;"></div>
-        <table id="out">
-          <thead>
-            <tr><th>지갑</th><th>Polygon</th><th>Anubis</th><th>합계개수</th><th>합계 $</th>
-              <th>목표개수<br>도달</th><th>목표가치<br>도달</th></tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+        <div id="summary" style="font-size:12px;color:var(--muted);margin-bottom:8px;"></div>
+        <table id="out"><tbody></tbody></table>
+        <div class="eta" id="eta"></div>
         <div class="note" id="note"></div>
       </div>
 
@@ -204,10 +148,7 @@
 </div>
 
 <script>
-// ===== 코어 =====
-// r은 소수(0.001666). rs/hs 없으면 단리 0(일반 = 추가보상 없음).
-// reinv: 단리 보상 재투자 설정 {on, everyH, norm} — norm은 재투자처(일반 스테이킹) 복리 이율.
-// ── 순수 CORE (Task 1 검증: rate 디코드 + 360/600 성장) ──
+// ===== 순수 CORE (검증 완료: rate 디코드 + 360/600 성장) =====
 const CORE = {
   decUint(hex){ return BigInt(hex); },
   decEpochDistribute(hex){ const h=hex.slice(2); return BigInt('0x'+h.slice(192,256)); },
@@ -216,369 +157,181 @@ const CORE = {
   setPctFromInfo(r1e6){ return r1e6/1e6*100; },
   indexDeltaPct(a,b,eH,epH){ if(!(b>0)||!(eH>0)||!(a>b)) return null; return (Math.pow(a/b,epH/eH)-1)*100; },
   accumDeltaPct(now,prev,depoch,denom){ if(!(depoch>0)) return null; const d=now-prev; if(d<0n) return 0; return Number(d)/depoch/Number(denom)*100; },
-  bucket(P0, rc, hc, rs, hs, t, periodic, reinv){
+  // 연속복리 + 단리 추가보상 (재투자·이산 없음 — 단순화)
+  bucket(P0, rc, hc, rs, hs, t){
     if(!P0) return 0;
-    let tc=t; if(periodic){ tc=Math.floor(t/(hc||1))*(hc||1); }
-    const comp = P0*Math.pow(1+rc, tc/(hc||1));
+    const comp = P0*Math.pow(1+rc, t/(hc||1));
     if(!(rs>0)) return comp;
-    if(reinv && reinv.on){
-      const ev=reinv.everyH, N=reinv.norm, chunk=P0*rs*(ev/(hs||1));
-      let acc=0;
-      for(let k=1; k*ev <= t+1e-9; k++){ const age=t-k*ev; const ac=periodic?Math.floor(age/(N.hc||1))*(N.hc||1):age; acc+=chunk*Math.pow(1+N.rc, ac/(N.hc||1)); }
-      return comp+acc;
-    }
-    let ts=t; if(periodic){ ts=Math.floor(t/(hs||1))*(hs||1); }
-    return comp + P0*rs*(ts/(hs||1));
+    return comp + P0*rs*(t/(hs||1));
   },
 };
-// 한 체인 잔고 = 360버킷 + 600버킷 + 정상버킷 (복리는 체인 리베이스 공통, 추가보상만 상품별)
-function chainBalance(w, chain, t, R, periodic){
+// 한 체인 잔고 = 360 + 600 + 정상 (복리는 체인 리베이스 공통, 추가보상만 상품별)
+function chainBalance(H, chain, t, R){
   const c = chain==='poly'? R.poly : R.anub;
-  const reinv = R.reinv && R.reinv.on ? {on:true, everyH:R.reinv.everyH, norm:{rc:c.rc, hc:c.hc}} : null;
   const k = chain==='poly'? {b360:'p360',b600:'p600',bn:'pn'} : {b360:'a360',b600:'a600',bn:'an'};
-  const long360 = CORE.bucket(w[k.b360], c.rc, c.hc, c.rs360, c.hs, t, periodic, reinv);
-  const long600 = CORE.bucket(w[k.b600], c.rc, c.hc, c.rs600, c.hs, t, periodic, reinv);
-  const normal  = CORE.bucket(w[k.bn],   c.rc, c.hc, 0,        1,    t, periodic, null);
-  return long360 + long600 + normal;
+  return CORE.bucket(H[k.b360], c.rc, c.hc, c.rs360, c.hs, t)
+       + CORE.bucket(H[k.b600], c.rc, c.hc, c.rs600, c.hs, t)
+       + CORE.bucket(H[k.bn],   c.rc, c.hc, 0,        1,    t);
 }
-function walletBalance(w, t, R, periodic){
-  return chainBalance(w,'poly',t,R,periodic) + chainBalance(w,'anub',t,R,periodic);
-}
-function daysToTarget(w, target, lockDays, R, periodic){
+function totalBalance(H, t, R){ return chainBalance(H,'poly',t,R) + chainBalance(H,'anub',t,R); }
+function daysToTarget(H, target, lockDays, R){
   const hi0=lockDays*24;
   if(target<=0) return 0;
-  if(walletBalance(w,0,R,periodic)>=target) return 0;
-  if(walletBalance(w,hi0,R,periodic)<target) return null;
+  if(totalBalance(H,0,R)>=target) return 0;
+  if(totalBalance(H,hi0,R)<target) return null;
   let lo=0,hi=hi0;
-  for(let i=0;i<200;i++){const mid=(lo+hi)/2;
-    if(walletBalance(w,mid,R,periodic)>=target) hi=mid; else lo=mid;}
+  for(let i=0;i<200;i++){const mid=(lo+hi)/2; if(totalBalance(H,mid,R)>=target) hi=mid; else lo=mid;}
   return hi/24;
 }
-// 전체(모든 지갑) 합산 잔고
-function totalBalance(wallets, t, R, periodic){
-  let s=0; for(const w of wallets) s+=walletBalance(w,t,R,periodic); return s;
-}
-function totalDaysToTarget(wallets, target, lockDays, R, periodic){
-  const hi0=lockDays*24;
-  if(target<=0) return 0;
-  if(totalBalance(wallets,0,R,periodic)>=target) return 0;
-  if(totalBalance(wallets,hi0,R,periodic)<target) return null;
-  let lo=0,hi=hi0;
-  for(let i=0;i<200;i++){const mid=(lo+hi)/2;
-    if(totalBalance(wallets,mid,R,periodic)>=target) hi=mid; else lo=mid;}
-  return hi/24;
-}
-// 분배 유틸
-function absorbResidual(arr,D){const r=arr.map(Math.round);
-  const res=Math.round(D)-r.reduce((a,b)=>a+b,0);
-  if(r.length){let idx=0;for(let i=1;i<r.length;i++)if(r[i]>r[idx])idx=i;r[idx]+=res;}return r;}
-function distCountEqual(ex,D,intOnly){const n=ex.length,tc=(ex.reduce((a,b)=>a+b,0)+D)/n;
-  let nw=ex.map(e=>tc-e);return intOnly?absorbResidual(nw,D):nw;}
-function distValueEqual(ex,D,pe,pn,intOnly){const n=ex.length,tv=ex.reduce((a,e)=>a+e*pe,0)+D*pn,each=tv/n;
-  let nw=ex.map(e=>(each-e*pe)/pn);return intOnly?absorbResidual(nw,D):nw;}
 
 // ===== 상태 =====
-let wallets = [
-  {name:'지갑1', p360:0, p600:0, pn:0, a360:0, a600:0, an:0},
-];
+const H = {p360:0,p600:0,pn:0,a360:0,a600:0,an:0};
 const num=id=>parseFloat(document.getElementById(id).value)||0;
-
-// 이율 입력은 %단위 → 소수로 변환 (/100). h는 그대로.
 const pct=id=>num(id)/100;
 function readRates(){
   return {
     poly:{ rc:pct('rc_poly'), hc:num('hc_poly'), rs360:pct('rs_p360'), rs600:pct('rs_p600'), hs:num('hs_poly') },
     anub:{ rc:pct('rc_anu'),  hc:num('hc_anu'),  rs360:pct('rs_a360'), rs600:pct('rs_a600'), hs:num('hs_anu') },
-    reinv:{ on:document.getElementById('ri_on').checked, everyH:num('ri_every')*24 },
   };
 }
-
-// ===== 지갑 UI =====
-function renderWallets(){
-  const box=document.getElementById('wallets');
-  box.innerHTML = wallets.map((w,i)=>`
-    <div class="wallet" data-i="${i}">
-      <div class="whead">
-        <input class="wname" value="${w.name}" placeholder="지갑 이름"/>
-        <button class="del" ${wallets.length<=1?'disabled style="opacity:.3;"':''}>삭제</button>
-      </div>
-      <div class="chainlbl poly">◆ Polygon</div>
-      <div class="row4">
-        <div><label>360 개수</label><input class="f" data-k="p360" type="number" value="${w.p360}"/></div>
-        <div><label>600 개수</label><input class="f" data-k="p600" type="number" value="${w.p600}"/></div>
-        <div><label>일반 개수</label><input class="f" data-k="pn" type="number" value="${w.pn}"/></div>
-        <div></div>
-      </div>
-      <div class="chainlbl anub">◆ Anubis</div>
-      <div class="row4">
-        <div><label>360 개수</label><input class="f" data-k="a360" type="number" value="${w.a360}"/></div>
-        <div><label>600 개수</label><input class="f" data-k="a600" type="number" value="${w.a600}"/></div>
-        <div><label>일반 개수</label><input class="f" data-k="an" type="number" value="${w.an}"/></div>
-        <div></div>
-      </div>
-    </div>`).join('');
-
-  box.querySelectorAll('.wallet').forEach(el=>{
-    const i=+el.dataset.i;
-    el.querySelector('.wname').addEventListener('input',e=>wallets[i].name=e.target.value);
-    el.querySelectorAll('.f').forEach(inp=>inp.addEventListener('input',e=>{
-      wallets[i][e.target.dataset.k]=parseFloat(e.target.value)||0;}));
-    el.querySelector('.del').addEventListener('click',()=>{
-      if(wallets.length>1){wallets.splice(i,1);renderWallets();}});
-  });
+function bindHoldings(){
+  Object.keys(H).forEach(k=>{ const el=document.getElementById('h_'+k); if(!el)return;
+    if(H[k]) el.value=H[k];
+    el.addEventListener('input',e=>{ H[k]=parseFloat(e.target.value)||0; calc(); }); });
 }
 
-document.getElementById('addw').addEventListener('click',()=>{
-  wallets.push({name:'지갑'+(wallets.length+1),p360:0,p600:0,pn:0,a360:0,a600:0,an:0});renderWallets();});
-
-// segmented 모드
-(function(){const el=document.getElementById('pmode');
-  el.addEventListener('click',e=>{if(e.target.tagName!=='BUTTON')return;
-    [...el.children].forEach(b=>b.classList.remove('on'));e.target.classList.add('on');});})();
-const getPeriodic=()=>document.querySelector('#pmode .on').dataset.v==='1';
-
-// 분배 도우미
-document.getElementById('d_apply').addEventListener('click',()=>{
-  const bucket=document.getElementById('d_bucket').value;
-  const D=num('d_total'), mode=document.getElementById('d_mode').value;
-  const intOnly=document.getElementById('d_int').checked;
-  const ex=wallets.map(w=>w[bucket]||0);
-  const nw= mode==='value_equal'
-    ? distValueEqual(ex,D,num('d_pe'),num('d_pn'),intOnly)
-    : distCountEqual(ex,D,intOnly);
-  wallets.forEach((w,i)=>{w[bucket]=Math.round((nw[i]+Number.EPSILON)*100)/100;});
-  const sum=nw.reduce((a,b)=>a+b,0);
-  const ok=Math.abs(sum-D)<(intOnly?1:1e-6);
-  document.getElementById('d_check').innerHTML=
-    `Σnew=${sum.toLocaleString(undefined,{maximumFractionDigits:2})} / D=${D} `+
-    (ok?'<span class="pill">OK</span>':'<span class="pill bad">MISMATCH</span>')+
-    ` → 선택 버킷에 적용됨`;
-  renderWallets(); calc();
-});
-
 // ===== 계산 =====
-let results=[], cache={};
+let cache={};
 function calc(){
-  const R=readRates(), periodic=getPeriodic();
+  const R=readRates();
   const price=num('price'), lock=num('lock');
   const tCount=num('t_count'), tValue=num('t_value');
   const tValTokens = price>0 ? tValue/price : Infinity;
 
-  results = wallets.map(w=>{
-    const poly0=chainBalance(w,'poly',0,R,periodic);
-    const anub0=chainBalance(w,'anub',0,R,periodic);
-    const tot0=poly0+anub0;
-    return {name:w.name, w,
-      poly0, anub0, tot0, val0:tot0*price,
-      dCount:daysToTarget(w,tCount,lock,R,periodic),
-      dValue:daysToTarget(w,tValTokens,lock,R,periodic)};
-  });
-
-  // 전체 합산
-  const gPoly0=results.reduce((a,r)=>a+r.poly0,0);
-  const gAnub0=results.reduce((a,r)=>a+r.anub0,0);
-  const gTot0=gPoly0+gAnub0;
-  const gDC=totalDaysToTarget(wallets,tCount,lock,R,periodic);
-  const gDV=totalDaysToTarget(wallets,tValTokens,lock,R,periodic);
-
-  // 재투자 ON/OFF 비교 (목표 개수 기준)
-  const Roff=Object.assign({},R,{reinv:{on:false,everyH:R.reinv.everyH}});
-  const Ron =Object.assign({},R,{reinv:{on:true ,everyH:R.reinv.everyH}});
-  const dOff=totalDaysToTarget(wallets,tCount,lock,Roff,periodic);
-  const dOn =totalDaysToTarget(wallets,tCount,lock,Ron ,periodic);
-  let cmp='';
-  if(dOff!==null&&dOn!==null){
-    const saved=dOff-dOn, pct=dOff>0?(saved/dOff*100):0;
-    cmp=` · <b style="color:var(--green)">재투자 효과</b>: ${dOff.toFixed(1)}일 → ${dOn.toFixed(1)}일 `+
-        `(${saved>=0?'단축':'증가'} ${Math.abs(saved).toFixed(1)}일, ${Math.abs(pct).toFixed(1)}%, ${num('ri_every')}일 주기)`;
-  }
+  const poly0=chainBalance(H,'poly',0,R), anub0=chainBalance(H,'anub',0,R), tot0=poly0+anub0;
+  const dC=daysToTarget(H,tCount,lock,R), dV=daysToTarget(H,tValTokens,lock,R);
 
   document.getElementById('summary').innerHTML=
-    `목표 개수 ${tCount.toLocaleString()} · 목표 가치 $${tValue.toLocaleString()} (≈${isFinite(tValTokens)?tValTokens.toLocaleString(undefined,{maximumFractionDigits:0}):'-'}개) · `+
-    `가정단가 $${price} · 락업 ${lock}일 · ${periodic?'이산':'연속'} 모델${cmp}`;
+    `목표 개수 ${tCount.toLocaleString()} · 목표 가치 $${tValue.toLocaleString()} (≈${isFinite(tValTokens)?tValTokens.toLocaleString(undefined,{maximumFractionDigits:0}):'-'}개) · 가정단가 $${price} · 락업 ${lock}일 · 연속복리`;
 
-  const riHint=document.getElementById('ri_hint');
-  if(riHint) riHint.innerHTML = R.reinv.on
-    ? '✓ 적용 중 (표·그래프 = 재투자 포함)'
-    : '꺼짐 (단리 선형 누적)';
+  const f=(n,d=2)=>n.toLocaleString(undefined,{maximumFractionDigits:d});
+  document.querySelector('#out tbody').innerHTML=`
+    <tr><td>Polygon · 360</td><td>${f(H.p360)}</td></tr>
+    <tr><td>Polygon · 600</td><td>${f(H.p600)}</td></tr>
+    <tr><td>Polygon · 일반</td><td>${f(H.pn)}</td></tr>
+    <tr class="sub"><td>Polygon 소계</td><td>${f(poly0)}</td></tr>
+    <tr><td>Anubis · 360</td><td>${f(H.a360)}</td></tr>
+    <tr><td>Anubis · 600</td><td>${f(H.a600)}</td></tr>
+    <tr><td>Anubis · 일반</td><td>${f(H.an)}</td></tr>
+    <tr class="sub"><td>Anubis 소계</td><td>${f(anub0)}</td></tr>
+    <tr class="total"><td>전체 합계</td><td>${f(tot0)} ($${f(tot0*price,0)})</td></tr>`;
 
-  const fday=d=>d===null?'<span class="miss">미달성</span>':'<span class="big">'+d.toFixed(2)+'일</span>';
-  const tb=document.querySelector('#out tbody');
-  tb.innerHTML = results.map(r=>`
-    <tr>
-      <td>${r.name}</td>
-      <td>${r.poly0.toLocaleString(undefined,{maximumFractionDigits:2})}</td>
-      <td>${r.anub0.toLocaleString(undefined,{maximumFractionDigits:2})}</td>
-      <td>${r.tot0.toLocaleString(undefined,{maximumFractionDigits:2})}</td>
-      <td>$${r.val0.toLocaleString(undefined,{maximumFractionDigits:0})}</td>
-      <td>${fday(r.dCount)}</td>
-      <td>${fday(r.dValue)}</td>
-    </tr>`).join('') + `
-    <tr class="total">
-      <td>전체 합산</td>
-      <td>${gPoly0.toLocaleString(undefined,{maximumFractionDigits:0})}</td>
-      <td>${gAnub0.toLocaleString(undefined,{maximumFractionDigits:0})}</td>
-      <td>${gTot0.toLocaleString(undefined,{maximumFractionDigits:0})}</td>
-      <td>$${(gTot0*price).toLocaleString(undefined,{maximumFractionDigits:0})}</td>
-      <td>${fday(gDC)}</td>
-      <td>${fday(gDV)}</td>
-    </tr>`;
+  const fday=d=>d===null?'<span class="val miss">미달성</span>':'<span class="val">'+d.toFixed(1)+'일</span>';
+  document.getElementById('eta').innerHTML=
+    `<div class="box"><div class="lab">목표 개수 ${tCount.toLocaleString()} 도달</div>${fday(dC)}</div>`+
+    `<div class="box"><div class="lab">목표 가치 $${tValue.toLocaleString()} 도달</div>${fday(dV)}</div>`;
 
   document.getElementById('note').innerHTML=
-    '체인별(Polygon/Anubis) 개수를 따로 누적해 합산한 값이 최종 결과. '+
     '<b>복리 리베이스</b>는 체인당 1율(정상·장기 공통 적용), <b>360/600 차이는 추가보상(단리)뿐</b>. '+
-    '<b>정상 스테이킹</b>은 해당 체인 리베이스 적용. 가정단가는 공통. '+
-    '<b>단리 보상 재투자</b> ON 시: 장기 버킷의 단리 보상을 설정 주기마다 걷어 일반 스테이킹(복리)에 입금 → '+
-    '각 보상 청크가 입금 시점부터 복리 성장(원금은 그대로 유지). 보상이 더 이상 놀지 않아 도달이 빨라짐. '+
+    '<b>정상 스테이킹</b>은 해당 체인 리베이스 적용. 보상률은 온체인 실측 자동(표시전용·근거 링크). '+
     'r·보상률은 락업 전 기간 <b>고정 가정</b>이며 <b>명목 토큰수 도달 ≠ 실제 시장가 유지</b>. '+
     'OHM-fork 계열은 APY 단계 인하가 일반적 → 실제 일정은 더 길어질 수 있음.';
 
-  cache={R,periodic,tCount,tValTokens,gdays:num('gdays')};
+  cache={R,tCount,tValTokens,gdays:num('gdays')};
   draw();
 }
 
-// ===== 차트: 향후 2년 개수 추이 =====
+// ===== 차트: 향후 추이 (전체 합산 단일 곡선) =====
 function draw(){
   const cv=document.getElementById('cv');
   const dpr=window.devicePixelRatio||1;
   cv.width=cv.clientWidth*dpr; cv.height=320*dpr;
   const ctx=cv.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
-  const W=cv.clientWidth,H=320,pad={l:60,r:16,t:16,b:26};
-  ctx.clearRect(0,0,W,H);
-  if(!results.length) return;
-  const {R,periodic,tCount,tValTokens}=cache;
+  const W=cv.clientWidth,H2=320,pad={l:60,r:16,t:16,b:26};
+  ctx.clearRect(0,0,W,H2);
+  const {R,tCount,tValTokens}=cache;
   const maxDay=Math.max(1,cache.gdays||730);
   const N=160;
-  const colors=['#9FE870','#5fd0ff','#ffcf6b','#ff9ad1','#c39bff','#7be3a0','#ff7a7a'];
 
-  let ymax=Math.max(tCount, isFinite(tValTokens)?tValTokens:0);
-  const series=results.map(r=>{
-    const pts=[];
-    for(let k=0;k<=N;k++){const day=maxDay*k/N;const v=walletBalance(r.w,day*24,R,periodic);pts.push([day,v]);ymax=Math.max(ymax,v);}
-    return pts;
-  });
-  // 전체 합산 곡선
-  const totalPts=[];
-  for(let k=0;k<=N;k++){const day=maxDay*k/N;const v=totalBalance(wallets,day*24,R,periodic);totalPts.push([day,v]);ymax=Math.max(ymax,v);}
+  let ymax=Math.max(tCount, isFinite(tValTokens)?tValTokens:0, totalBalance(H,0,R));
+  const pts=[];
+  for(let k=0;k<=N;k++){const day=maxDay*k/N;const v=totalBalance(H,day*24,R);pts.push([day,v]);ymax=Math.max(ymax,v);}
   ymax*=1.06; if(ymax<=0) ymax=1;
 
   const X=d=>pad.l+(W-pad.l-pad.r)*(d/maxDay);
-  const Y=v=>H-pad.b-(H-pad.t-pad.b)*(v/ymax);
+  const Y=v=>H2-pad.b-(H2-pad.t-pad.b)*(v/ymax);
 
   ctx.strokeStyle='#243029';ctx.fillStyle='#8aa093';ctx.font='10px sans-serif';ctx.lineWidth=1;
   for(let g=0;g<=4;g++){const v=ymax*g/4,y=Y(v);ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(W-pad.r,y);ctx.stroke();
     ctx.fillText((v>=1000?(v/1000).toFixed(0)+'k':v.toFixed(0)),6,y+3);}
-  const yearMark=v=>v.toFixed(0)+'d';
-  for(let g=0;g<=6;g++){const d=maxDay*g/6,x=X(d);ctx.fillText(yearMark(d),x-10,H-8);}
-  // 1년/2년 수직선
+  for(let g=0;g<=6;g++){const d=maxDay*g/6,x=X(d);ctx.fillText(d.toFixed(0)+'d',x-10,H2-8);}
   ctx.strokeStyle='#2f3d34';ctx.setLineDash([2,3]);
-  [365,730].forEach(d=>{if(d<=maxDay){ctx.beginPath();ctx.moveTo(X(d),pad.t);ctx.lineTo(X(d),H-pad.b);ctx.stroke();}});
+  [365,730].forEach(d=>{if(d<=maxDay){ctx.beginPath();ctx.moveTo(X(d),pad.t);ctx.lineTo(X(d),H2-pad.b);ctx.stroke();}});
   ctx.setLineDash([]);
 
-  // 목표 개수 라인
   if(tCount>0){ctx.strokeStyle='#ff7a7a';ctx.setLineDash([5,4]);ctx.beginPath();
     ctx.moveTo(pad.l,Y(tCount));ctx.lineTo(W-pad.r,Y(tCount));ctx.stroke();ctx.setLineDash([]);
     ctx.fillStyle='#ff7a7a';ctx.fillText('목표개수 '+(tCount/1000).toFixed(1)+'k',W-pad.r-92,Y(tCount)-4);}
-  // 목표 가치(토큰환산) 라인
   if(isFinite(tValTokens)&&tValTokens>0){ctx.strokeStyle='#ffcf6b';ctx.setLineDash([2,4]);ctx.beginPath();
     ctx.moveTo(pad.l,Y(tValTokens));ctx.lineTo(W-pad.r,Y(tValTokens));ctx.stroke();ctx.setLineDash([]);
     ctx.fillStyle='#ffcf6b';ctx.fillText('목표가치 ≈'+(tValTokens/1000).toFixed(1)+'k',pad.l+4,Y(tValTokens)-4);}
 
-  // 지갑별 곡선
-  series.forEach((pts,i)=>{
-    if(wallets.length>1){ctx.strokeStyle=colors[(i+1)%colors.length];ctx.lineWidth=1.5;ctx.globalAlpha=.85;ctx.beginPath();
-      pts.forEach((p,k)=>{const x=X(p[0]),y=Y(p[1]);k?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.stroke();ctx.globalAlpha=1;}
-  });
-  // 전체 합산 곡선(굵게)
   ctx.strokeStyle='#9FE870';ctx.lineWidth=2.6;ctx.beginPath();
-  totalPts.forEach((p,k)=>{const x=X(p[0]),y=Y(p[1]);k?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.stroke();
+  pts.forEach((p,k)=>{const x=X(p[0]),y=Y(p[1]);k?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.stroke();
 
-  const gDC=totalDaysToTarget(wallets,tCount,maxDay,R,periodic);
+  const dC=daysToTarget(H,tCount,maxDay,R);
   document.getElementById('legend').innerHTML=
     `<span><span class="dot" style="background:#9FE870"></span><b>전체 합산</b>`+
-    (gDC!==null?` · 목표개수 ${gDC.toFixed(1)}일`:' · 목표개수 미달성')+`</span>`+
-    (wallets.length>1? results.map((r,i)=>
-      `<span><span class="dot" style="background:${colors[(i+1)%colors.length]}"></span>${r.name}`+
-      (r.dCount!==null?` · ${r.dCount.toFixed(1)}일`:' · 미달성')+`</span>`).join(''):'');
+    (dC!==null?` · 목표개수 ${dC.toFixed(1)}일`:' · 목표개수 미달성')+`</span>`;
 }
 
 // init
-renderWallets();
+bindHoldings();
 document.getElementById('calc').addEventListener('click',calc);
-// 재투자 토글·주기는 즉시 반영
-document.getElementById('ri_on').addEventListener('change',calc);
-document.getElementById('ri_every').addEventListener('input',calc);
+['t_count','t_value','price','lock','gdays'].forEach(id=>document.getElementById(id).addEventListener('input',calc));
 calc();
 </script>
+
 <script>
-/* PlannerRate — 하이브리드 율 자동채움 (READ-ONLY). rates.json(CI) → 라이브 RPC 덧갱신. 수동 우선.
-   6율: rc_poly·rc_anu(복리 리베이스) + rs_p360·rs_p600·rs_a360·rs_a600(추가보상 단리). spec: 30_Projects/lgns-staking-planner.md */
+/* PlannerRate — 온체인 실측 보상률 표시전용 (READ-ONLY). rates.json(CI 6h) → 6칸 표시 + 근거 익스플로러 링크.
+   수동입력·라이브오버레이 없음(표시전용). spec: 30_Projects/lgns-staking-planner.md */
 (function(){
   'use strict';
-  var POLY_RPCS=["https://polygon-rpc.com","https://polygon.drpc.org","https://polygon-bor-rpc.publicnode.com","https://polygon.llamarpc.com","https://1rpc.io/matic"];
-  var ANU_RPC="https://rpc.anubispace.org";
-  var STAKING="0x1964Ca90474b11FFD08af387b110ba6C96251Bfc",SLGNS="0x99a57E6C8558BC6689f894e068733ADf83C19725",ANU_SLGNS="0x2243aE29F73137d678197b61B0621AE942845B8C";
-  var S_EPOCH="0x900cf0cf",S_CIRC="0x9358928b",S_TOTAL="0x18160ddd",S_INDEX="0x2986c0e5";
-  var IDS=['rc_poly','hc_poly','rs_p360','rs_p600','hs_poly','rc_anu','hc_anu','rs_a360','rs_a600','hs_anu'];
-  var LS_ANU='plannerRate_anuIdx_v1';
-  function $(id){return document.getElementById(id);}
-  function lsGet(k){try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;}}
-  function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
-  function rpc(url,method,params){return fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:method,params:params})}).then(function(r){return r.json();}).then(function(j){return (j&&j.result!=null&&j.result!=='0x')?j.result:null;});}
-  function polyCall(to,data){return (function next(i){ if(i>=POLY_RPCS.length) return Promise.resolve(null); return rpc(POLY_RPCS[i],'eth_call',[{to:to,data:data},'latest']).then(function(r){return r||next(i+1);}).catch(function(){return next(i+1);}); })(0);}
-  function decW(hex,i){var h=hex.slice(2);return BigInt('0x'+h.slice(i*64,i*64+64));}
-  function ensureStyle(){ if($('planner-rate-style'))return; var s=document.createElement('style'); s.id='planner-rate-style';
-    s.textContent='.pr-feed{font:11px/1.45 ui-monospace,Menlo,monospace;color:#8aa093;margin-top:3px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}'
-    +'.pr-feed .on{color:#9FE870}.pr-feed .on::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#9FE870;box-shadow:0 0 7px #9FE870;margin-right:4px;vertical-align:middle}'
-    +'.pr-feed .man{color:#ffcf6b}.pr-feed .rf{cursor:pointer;color:#9FE870;border:1px solid rgba(159,232,112,.35);border-radius:5px;padding:0 5px}';
-    document.head.appendChild(s); }
-  function feedEl(id){var inp=$(id);if(!inp)return null;var ex=$('feed_'+id);if(ex)return ex;var b=document.createElement('div');b.className='pr-feed';b.id='feed_'+id;inp.insertAdjacentElement('afterend',b);return b;}
-  function feed(id,html){var f=$('feed_'+id);if(f)f.innerHTML=html;}
-  var manual={};
-  function setRate(id,pct){ if(manual[id]||pct==null)return; var inp=$(id); if(inp) inp.value=Number(pct).toFixed(4); }
-  function setH(id,h){ if(manual[id]||h==null)return; var inp=$(id); if(inp) inp.value=h; }
-  var RF='<span class="rf" onclick="PlannerRate.refresh()">🔄</span>';
-  function applyJson(j,recompute){
-    if(!j)return;
-    var p=j.poly||{}, a=j.anubis||{};
-    if(p.rebase){ setRate('rc_poly',p.rebase.pctPerEpoch); setH('hc_poly',p.rebase.epochH); }
-    if(p.extra){ if(p.extra.long360)setRate('rs_p360',p.extra.long360.pctPerEpoch); if(p.extra.long600)setRate('rs_p600',p.extra.long600.pctPerEpoch); setH('hs_poly',(p.extra.long600||{}).epochH); }
-    if(a.rebase){ setRate('rc_anu',a.rebase.pctPerEpoch); setH('hc_anu',a.rebase.epochH); }
-    if(a.extra){ if(a.extra.long360)setRate('rs_a360',a.extra.long360.pctPerEpoch); if(a.extra.long600)setRate('rs_a600',a.extra.long600.pctPerEpoch); setH('hs_anu',(a.extra.long600||{}).epochH); }
-    var meta='🔗 실측 · CI '+(j.generated?j.generated.slice(5,16).replace('T',' '):'?');
-    var psched=(p.rebase&&p.rebase.sched!=null)?(' · 예정 '+p.rebase.sched.toFixed(4)+'%'):'';
-    feed('rc_poly','<span class="on">'+meta+'</span>'+(p.block?(' · #'+(p.block/1e6).toFixed(2)+'M'):'')+psched+' '+RF);
-    feed('rc_anu','<span class="on">'+meta+'</span>'+(a.block?(' · #'+(a.block/1e6).toFixed(2)+'M'):'')+' '+RF);
-    ['rs_p360','rs_p600','rs_a360','rs_a600'].forEach(function(id){ feed(id,'<span class="on">🔗 실측(상품별)</span> '+RF); });
-    if(typeof recompute==='function') recompute();
-  }
-  function liveOverlay(recompute){
-    polyCall(STAKING,S_EPOCH).then(function(ep){ if(!ep)return;
-      polyCall(SLGNS,S_CIRC).then(function(c){ return c||polyCall(SLGNS,S_TOTAL); }).then(function(circ){ if(!circ)return;
-        var dist=decW(ep,3), cc=BigInt(circ); if(cc>0n){ var v=Number(dist)/Number(cc)*100; if(v>0&&v<2){ setRate('rc_poly',v); if(!manual['rc_poly'])feed('rc_poly','<span class="on">🔗 라이브 '+v.toFixed(4)+'%/에폭</span> '+RF); if(typeof recompute==='function')recompute(); } } });
-    }).catch(function(){});
-    rpc(ANU_RPC,'eth_call',[{to:ANU_SLGNS,data:S_INDEX},'latest']).then(function(ix){ if(!ix)return; var idxNow=Number(BigInt(ix))/1e9, prev=lsGet(LS_ANU), nowt=Date.now();
-      if(prev&&prev.index>0&&idxNow>prev.index){ var eH=(nowt-prev.ts)/3600000; if(eH>=3){ var v=(Math.pow(idxNow/prev.index,12/eH)-1)*100; if(v>0&&v<2){ setRate('rc_anu',v); if(!manual['rc_anu'])feed('rc_anu','<span class="on">🔗 라이브 '+v.toFixed(4)+'%(index-delta)</span> '+RF); if(typeof recompute==='function')recompute(); } } }
-      if(!prev||idxNow>prev.index) lsSet(LS_ANU,{index:idxNow,ts:nowt}); }).catch(function(){});
-  }
-  window.PlannerRate={
-    init:function(cfg){
-      ensureStyle(); cfg=cfg||{}; var recompute=cfg.recompute||function(){};
-      IDS.forEach(function(id){ var inp=$(id); if(!inp)return; feedEl(id);
-        inp.addEventListener('input',function(){ manual[id]=true; feed(id,'<span class="man">✏ 수동</span>'); }); });
-      function run(){
-        fetch('./rates.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(j){
-          if(j){ applyJson(j,recompute); } else { feed('rc_poly','<span class="man">rates.json 없음 — 라이브/수동</span>'); }
-          liveOverlay(recompute);
-        }).catch(function(){ liveOverlay(recompute); });
-      }
-      window.PlannerRate.refresh=function(){ manual={}; IDS.forEach(function(id){feed(id,'');}); run(); };
-      run();
-    }
+  var EVID={
+    rc_poly:['https://polygonscan.com/address/0x1964Ca90474b11FFD08af387b110ba6C96251Bfc','Staking.epoch'],
+    rs_p360:['https://polygonscan.com/address/0x6652d0f0D7aEc5070804E55b7023d32B9Bbc4190','LONG360.extraInterest'],
+    rs_p600:['https://polygonscan.com/address/0x8cA97F41d2C81AF050656e8AD0Cf543820a24504','LONG600.extraInterest'],
+    rc_anu:['https://browser.anubispace.org/address/0x2243aE29F73137d678197b61B0621AE942845B8C','sLGNS.index'],
+    rs_a360:['https://browser.anubispace.org/address/0x88ea98af226Cd4402A3873400308a4D78784eCE6','L360.globalIndex'],
+    rs_a600:['https://browser.anubispace.org/address/0x04eD22c6d1D020A9B5e032E93D79ab28293EF72f','L600.globalIndex']
   };
+  function $(id){return document.getElementById(id);}
+  function ensureStyle(){ if($('pr-style'))return; var s=document.createElement('style'); s.id='pr-style';
+    s.textContent='.pr-feed{font:10.5px/1.4 ui-monospace,Menlo,monospace;color:#8aa093;margin-top:3px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}'
+    +'.pr-feed .on{color:#9FE870}.pr-feed .on::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#9FE870;box-shadow:0 0 7px #9FE870;margin-right:4px;vertical-align:middle}'
+    +'.pr-feed .man{color:#ffcf6b}.pr-feed a.ev{color:#5fd0ff;text-decoration:none;border-bottom:1px dotted rgba(95,208,255,.5)}.pr-feed a.ev:hover{color:#9fe2ff}';
+    document.head.appendChild(s); }
+  function feedEl(id){var inp=$(id);if(!inp)return;var ex=$('feed_'+id);if(ex)return;var b=document.createElement('div');b.className='pr-feed';b.id='feed_'+id;inp.insertAdjacentElement('afterend',b);}
+  function feed(id,html){var f=$('feed_'+id);if(f)f.innerHTML=html;}
+  function setV(id,v){ var el=$(id); if(el&&v!=null) el.value=v; }
+  function ev(id){ var e=EVID[id]; return e? ' · <a class="ev" href="'+e[0]+'" target="_blank" rel="noopener">🔗 근거('+e[1]+')</a>':''; }
+  function rate(id,v,ci,extra){ if(v==null)return; setV(id,Number(v).toFixed(4)); feed(id,'<span class="on">실측 '+ci+(extra||'')+'</span>'+ev(id)); }
+  function apply(j){
+    if(!j){ feed('rc_poly','<span class="man">rates.json 로드 실패 — 기본값</span>'); return; }
+    var p=j.poly||{}, a=j.anubis||{};
+    var ci='CI '+(j.generated?j.generated.slice(5,16).replace('T',' '):'?');
+    if(p.rebase){ setV('hc_poly',p.rebase.epochH); rate('rc_poly',p.rebase.pctPerEpoch,ci,(p.block?(' · #'+(p.block/1e6).toFixed(2)+'M'):'')+(p.rebase.sched!=null?(' · 예정 '+p.rebase.sched.toFixed(4)+'%'):'')); }
+    if(p.extra){ rate('rs_p360',(p.extra.long360||{}).pctPerEpoch,ci); rate('rs_p600',(p.extra.long600||{}).pctPerEpoch,ci); setV('hs_poly',(p.extra.long600||{}).epochH); }
+    if(a.rebase){ setV('hc_anu',a.rebase.epochH); rate('rc_anu',a.rebase.pctPerEpoch,ci,(a.block?(' · #'+(a.block/1e6).toFixed(2)+'M'):'')); }
+    if(a.extra){ rate('rs_a360',(a.extra.long360||{}).pctPerEpoch,ci); rate('rs_a600',(a.extra.long600||{}).pctPerEpoch,ci); setV('hs_anu',(a.extra.long600||{}).epochH); }
+    if(typeof window.calc==='function') window.calc();
+  }
+  window.PlannerRate={ init:function(){ ensureStyle();
+    ['rc_poly','rs_p360','rs_p600','rc_anu','rs_a360','rs_a600'].forEach(feedEl);
+    fetch('./rates.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(apply).catch(function(){ apply(null); }); } };
 })();
 </script>
-<script>(function(){function go(){PlannerRate.init({recompute:function(){if(typeof calc==='function')calc();}});}if(document.readyState==='loading')window.addEventListener('DOMContentLoaded',go);else go();})();</script>
+<script>(function(){function go(){PlannerRate.init();}if(document.readyState==='loading')window.addEventListener('DOMContentLoaded',go);else go();})();</script>
 <script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}</script>
 </body>
 </html>

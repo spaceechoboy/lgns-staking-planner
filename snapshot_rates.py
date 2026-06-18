@@ -19,8 +19,9 @@ ANU_L600 = "0x04eD22c6d1D020A9B5e032E93D79ab28293EF72f"
 S_EPOCH = "0x900cf0cf"; S_CIRC = "0x9358928b"; S_TOTAL = "0x18160ddd"; S_INFO = "0x2e340599"
 S_INDEX = "0x2986c0e5"; S_EXTRA = "0xb01d3563"; S_STAKES = "0x584b62a1"
 SLOT_GI = "0x6b"; SLOT_EP = "0x6c"; SLOT_DEN = "0x71"   # Anubis globalIndex / epoch / denom (vault 확정)
-SEED = {"rebasePoly": 0.1487, "rebaseSched": 0.1397, "rebaseAnu": 0.15,
+SEED = {"rebasePoly": 0.1487, "rebaseSched": 0.1397, "rebaseAnu": 0.075,
         "poly360": 0.12, "poly600": 0.0783, "anu360": 0.15, "anu600": 0.195}
+ANU_REBASE_EPOCH_H = 6   # Anubis 복리 리베이스 에폭 = 6시간 (사용자 확정 2026-06-19)
 MIN_DEPS = 0.3   # 시간기반 델타 최소 표본간격(에폭). 너무 가까운 두 스냅샷은 불신 → seed 유지
 HERE = os.path.dirname(os.path.abspath(__file__)); OUT = os.path.join(HERE, "rates.json")
 
@@ -135,7 +136,7 @@ def main():
         idx_now = int(idx, 16) / 1e9
         pidx = pv.get("anubis", {}).get("rebase", {}).get("index")
         if pidx:
-            deps = epochs_between(pv.get("generated"), now, 12)
+            deps = epochs_between(pv.get("generated"), now, ANU_REBASE_EPOCH_H)
             if deps and deps >= MIN_DEPS and idx_now > float(pidx):
                 rebaseAnu = clamp(((idx_now / float(pidx)) ** (1 / deps) - 1) * 100,
                                   pv.get("anubis", {}).get("rebase", {}).get("pctPerEpoch", SEED["rebaseAnu"]))
@@ -156,7 +157,7 @@ def main():
         return node
 
     out["anubis"] = {"block": ablock,
-                     "rebase": {"pctPerEpoch": rebaseAnu, "epochH": 12, "index": (round(idx_now, 6) if idx_now else None)},
+                     "rebase": {"pctPerEpoch": rebaseAnu, "epochH": ANU_REBASE_EPOCH_H, "index": (round(idx_now, 6) if idx_now else None)},
                      "extra": {"long360": anu_extra(ANU_L360, "anu360", pv.get("anubis", {}).get("extra", {}).get("long360")),
                                "long600": anu_extra(ANU_L600, "anu600", pv.get("anubis", {}).get("extra", {}).get("long600"))}}
 
