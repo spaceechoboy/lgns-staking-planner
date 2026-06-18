@@ -19,9 +19,11 @@ ANU_L600 = "0x04eD22c6d1D020A9B5e032E93D79ab28293EF72f"
 S_EPOCH = "0x900cf0cf"; S_CIRC = "0x9358928b"; S_TOTAL = "0x18160ddd"; S_INFO = "0x2e340599"
 S_INDEX = "0x2986c0e5"; S_EXTRA = "0xb01d3563"; S_STAKES = "0x584b62a1"
 SLOT_GI = "0x6b"; SLOT_EP = "0x6c"; SLOT_DEN = "0x71"   # Anubis globalIndex / epoch / denom (vault 확정)
-SEED = {"rebasePoly": 0.1487, "rebaseSched": 0.1397, "rebaseAnu": 0.075,
+SEED = {"rebasePoly": 0.1487, "rebaseSched": 0.1397, "rebaseAnu": 0.15,
         "poly360": 0.12, "poly600": 0.0783, "anu360": 0.15, "anu600": 0.195}
-ANU_REBASE_EPOCH_H = 6   # Anubis 복리 리베이스 에폭 = 6시간 (사용자 확정 2026-06-19)
+# Anubis 복리 리베이스 = 6h 에폭 · 0.15%/epoch (APY ~778%) — vault [[anubis-rebase-epoch-operator-schedule]]
+# 추가보상은 별개 카운터(slot 0x6c) ~12h 에폭 (360=0.15% 600=0.195%) — vault 추가보상 페이지
+ANU_REBASE_EPOCH_H = 6
 MIN_DEPS = 0.3   # 시간기반 델타 최소 표본간격(에폭). 너무 가까운 두 스냅샷은 불신 → seed 유지
 HERE = os.path.dirname(os.path.abspath(__file__)); OUT = os.path.join(HERE, "rates.json")
 
