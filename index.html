@@ -505,94 +505,73 @@ document.getElementById('ri_every').addEventListener('input',calc);
 calc();
 </script>
 <script>
-/* LGNS Rate Autofill — 온체인 실측 리베이스율 자동적용 (READ-ONLY: 키·tx·서명 없음)
-   복리: Polygon distribute÷circ(instant) · Anubis index-delta | 예정: info(1) | 단리펀딩: info(6)/info(7)
-   주소·셀렉터 vault 검증 2026-06-08. spec: 30_Projects/lgns-tools-onchain-rate-autofill.md */
+/* PlannerRate — 하이브리드 율 자동채움 (READ-ONLY). rates.json(CI) → 라이브 RPC 덧갱신. 수동 우선.
+   6율: rc_poly·rc_anu(복리 리베이스) + rs_p360·rs_p600·rs_a360·rs_a600(추가보상 단리). spec: 30_Projects/lgns-staking-planner.md */
 (function(){
   'use strict';
-  var POLY_RPCS=['https://polygon-rpc.com','https://polygon.drpc.org','https://polygon-bor-rpc.publicnode.com','https://polygon.llamarpc.com','https://1rpc.io/matic'];
-  var ANU_RPC='https://rpc.anubispace.org';
-  var STAKING='0x1964Ca90474b11FFD08af387b110ba6C96251Bfc', SLGNS='0x99a57E6C8558BC6689f894e068733ADf83C19725',
-      DISTRIB='0x8DEa9182ca68E101C4B351E4601f56044a5Dd611', ANU_SLGNS='0x2243aE29F73137d678197b61B0621AE942845B8C';
-  var S_EPOCH='0x900cf0cf', S_CIRC='0x9358928b', S_TOTAL='0x18160ddd', S_INDEX='0x2986c0e5', S_INFO='0x2e340599';
-  var LS_POLY='lgnsRate_poly_v1', LS_ANU='lgnsRate_anuIdx_v1';
-  function infoArg(i){ return S_INFO + BigInt(i).toString(16).padStart(64,'0'); }
-  function decEpochDistribute(hex){ return BigInt('0x'+hex.slice(2).slice(192,256)); }
-  function decInfoRate(hex){ return parseInt(hex.slice(2).slice(0,64),16); }
-  function decUint(hex){ return BigInt(hex); }
-  function measuredPct(d,c){ return c>0n?Number(d)/Number(c)*100:null; }
-  function setPctFromInfo(r){ return r/1e6*100; }
-  function indexDeltaPct(a,b,eH,epH){ if(!(b>0)||!(eH>0)||!(a>b))return null; return (Math.pow(a/b,epH/eH)-1)*100; }
-  function hm(ts){ var d=new Date(ts); return ('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2); }
-  function lsGet(k){ try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;} }
-  function lsSet(k,v){ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} }
-  function jsonRpc(url,method,params){ return fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({jsonrpc:'2.0',id:1,method:method,params:params})})
-      .then(function(r){return r.json();}).then(function(j){return (j&&j.result!=null&&j.result!=='0x')?j.result:null;}); }
-  async function polyCall(to,data){ for(var i=0;i<POLY_RPCS.length;i++){try{var r=await jsonRpc(POLY_RPCS[i],'eth_call',[{to:to,data:data},'latest']);if(r)return r;}catch(e){}} return null; }
-  async function polyBlock(){ for(var i=0;i<POLY_RPCS.length;i++){try{var r=await jsonRpc(POLY_RPCS[i],'eth_blockNumber',[]);if(r)return parseInt(r,16);}catch(e){}} return null; }
-  async function fetchPolygon(){
-    var ep=await polyCall(STAKING,S_EPOCH); if(!ep) throw new Error('epoch');
-    var circ=await polyCall(SLGNS,S_CIRC); if(!circ) circ=await polyCall(SLGNS,S_TOTAL); if(!circ) throw new Error('circ');
-    var i1=await polyCall(DISTRIB,infoArg(1)), i6=await polyCall(DISTRIB,infoArg(6)), i7=await polyCall(DISTRIB,infoArg(7));
-    var blk=await polyBlock();
-    return { measured:measuredPct(decEpochDistribute(ep),decUint(circ)),
-      set:i1?setPctFromInfo(decInfoRate(i1)):null, claim:i6?setPctFromInfo(decInfoRate(i6)):null,
-      longinus:i7?setPctFromInfo(decInfoRate(i7)):null, block:blk, ts:Date.now() }; }
-  async function fetchAnubisIndex(){
-    var idx=await jsonRpc(ANU_RPC,'eth_call',[{to:ANU_SLGNS,data:S_INDEX},'latest']); if(!idx) throw new Error('anu');
-    var blk=await jsonRpc(ANU_RPC,'eth_blockNumber',[]);
-    return { index:Number(decUint(idx))/1e9, block:blk?parseInt(blk,16):null, ts:Date.now() }; }
-  function anubisRate(idxNow,tsNow,epochH){
-    var prev=lsGet(LS_ANU), out={pct:null,note:'보정 중 — 다음 에폭 후 확정'};
-    if(prev&&prev.index>0){ var eH=(tsNow-prev.ts)/3600000; var pct=indexDeltaPct(idxNow,prev.index,eH,epochH);
-      if(pct!=null){ out.pct=pct; out.note=eH.toFixed(1)+'h 표본'; }
-      else if(prev.pct!=null){ out.pct=prev.pct; out.note='직전 표본 유지'; } }
-    if(!prev||idxNow>prev.index) lsSet(LS_ANU,{index:idxNow,ts:tsNow,pct:out.pct!=null?out.pct:(prev&&prev.pct)||null});
-    return out; }
-  function ensureStyle(){ if(document.getElementById('lgns-rate-style'))return; var s=document.createElement('style'); s.id='lgns-rate-style';
-    s.textContent='.lgns-rate-feed{font:11px/1.45 ui-monospace,Menlo,monospace;color:#8aa093;margin-top:3px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}'
-    +'.lgns-rate-feed .on{color:#9FE870}.lgns-rate-feed .on::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#9FE870;box-shadow:0 0 7px #9FE870;margin-right:4px;vertical-align:middle}'
-    +'.lgns-rate-feed .man{color:#ffcf6b}.lgns-rate-feed .rf{cursor:pointer;color:#9FE870;border:1px solid rgba(159,232,112,.35);border-radius:5px;padding:0 5px}'
-    +'.lgns-rate-info{font:11px/1.45 ui-monospace,Menlo,monospace;color:#8aa093;margin-top:3px}';
+  var POLY_RPCS=["https://polygon-rpc.com","https://polygon.drpc.org","https://polygon-bor-rpc.publicnode.com","https://polygon.llamarpc.com","https://1rpc.io/matic"];
+  var ANU_RPC="https://rpc.anubispace.org";
+  var STAKING="0x1964Ca90474b11FFD08af387b110ba6C96251Bfc",SLGNS="0x99a57E6C8558BC6689f894e068733ADf83C19725",ANU_SLGNS="0x2243aE29F73137d678197b61B0621AE942845B8C";
+  var S_EPOCH="0x900cf0cf",S_CIRC="0x9358928b",S_TOTAL="0x18160ddd",S_INDEX="0x2986c0e5";
+  var IDS=['rc_poly','hc_poly','rs_p360','rs_p600','hs_poly','rc_anu','hc_anu','rs_a360','rs_a600','hs_anu'];
+  var LS_ANU='plannerRate_anuIdx_v1';
+  function $(id){return document.getElementById(id);}
+  function lsGet(k){try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;}}
+  function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+  function rpc(url,method,params){return fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:method,params:params})}).then(function(r){return r.json();}).then(function(j){return (j&&j.result!=null&&j.result!=='0x')?j.result:null;});}
+  function polyCall(to,data){return (function next(i){ if(i>=POLY_RPCS.length) return Promise.resolve(null); return rpc(POLY_RPCS[i],'eth_call',[{to:to,data:data},'latest']).then(function(r){return r||next(i+1);}).catch(function(){return next(i+1);}); })(0);}
+  function decW(hex,i){var h=hex.slice(2);return BigInt('0x'+h.slice(i*64,i*64+64));}
+  function ensureStyle(){ if($('planner-rate-style'))return; var s=document.createElement('style'); s.id='planner-rate-style';
+    s.textContent='.pr-feed{font:11px/1.45 ui-monospace,Menlo,monospace;color:#8aa093;margin-top:3px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}'
+    +'.pr-feed .on{color:#9FE870}.pr-feed .on::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#9FE870;box-shadow:0 0 7px #9FE870;margin-right:4px;vertical-align:middle}'
+    +'.pr-feed .man{color:#ffcf6b}.pr-feed .rf{cursor:pointer;color:#9FE870;border:1px solid rgba(159,232,112,.35);border-radius:5px;padding:0 5px}';
     document.head.appendChild(s); }
-  function feedEl(id){ var inp=document.getElementById(id); if(!inp)return null; var ex=document.getElementById('feed_'+id); if(ex)return ex;
-    var b=document.createElement('div'); b.className='lgns-rate-feed'; b.id='feed_'+id; inp.insertAdjacentElement('afterend',b); return b; }
-  function infoEl(id){ var inp=document.getElementById(id); if(!inp)return null; var ex=document.getElementById('info_'+id); if(ex)return ex;
-    var d=document.createElement('div'); d.className='lgns-rate-info'; d.id='info_'+id; inp.insertAdjacentElement('afterend',d); return d; }
-  window.LGNSRate={
+  function feedEl(id){var inp=$(id);if(!inp)return null;var ex=$('feed_'+id);if(ex)return ex;var b=document.createElement('div');b.className='pr-feed';b.id='feed_'+id;inp.insertAdjacentElement('afterend',b);return b;}
+  function feed(id,html){var f=$('feed_'+id);if(f)f.innerHTML=html;}
+  var manual={};
+  function setRate(id,pct){ if(manual[id]||pct==null)return; var inp=$(id); if(inp) inp.value=Number(pct).toFixed(4); }
+  function setH(id,h){ if(manual[id]||h==null)return; var inp=$(id); if(inp) inp.value=h; }
+  var RF='<span class="rf" onclick="PlannerRate.refresh()">🔄</span>';
+  function applyJson(j,recompute){
+    if(!j)return;
+    var p=j.poly||{}, a=j.anubis||{};
+    if(p.rebase){ setRate('rc_poly',p.rebase.pctPerEpoch); setH('hc_poly',p.rebase.epochH); }
+    if(p.extra){ if(p.extra.long360)setRate('rs_p360',p.extra.long360.pctPerEpoch); if(p.extra.long600)setRate('rs_p600',p.extra.long600.pctPerEpoch); setH('hs_poly',(p.extra.long600||{}).epochH); }
+    if(a.rebase){ setRate('rc_anu',a.rebase.pctPerEpoch); setH('hc_anu',a.rebase.epochH); }
+    if(a.extra){ if(a.extra.long360)setRate('rs_a360',a.extra.long360.pctPerEpoch); if(a.extra.long600)setRate('rs_a600',a.extra.long600.pctPerEpoch); setH('hs_anu',(a.extra.long600||{}).epochH); }
+    var meta='🔗 실측 · CI '+(j.generated?j.generated.slice(5,16).replace('T',' '):'?');
+    var psched=(p.rebase&&p.rebase.sched!=null)?(' · 예정 '+p.rebase.sched.toFixed(4)+'%'):'';
+    feed('rc_poly','<span class="on">'+meta+'</span>'+(p.block?(' · #'+(p.block/1e6).toFixed(2)+'M'):'')+psched+' '+RF);
+    feed('rc_anu','<span class="on">'+meta+'</span>'+(a.block?(' · #'+(a.block/1e6).toFixed(2)+'M'):'')+' '+RF);
+    ['rs_p360','rs_p600','rs_a360','rs_a600'].forEach(function(id){ feed(id,'<span class="on">🔗 실측(상품별)</span> '+RF); });
+    if(typeof recompute==='function') recompute();
+  }
+  function liveOverlay(recompute){
+    polyCall(STAKING,S_EPOCH).then(function(ep){ if(!ep)return;
+      polyCall(SLGNS,S_CIRC).then(function(c){ return c||polyCall(SLGNS,S_TOTAL); }).then(function(circ){ if(!circ)return;
+        var dist=decW(ep,3), cc=BigInt(circ); if(cc>0n){ var v=Number(dist)/Number(cc)*100; if(v>0&&v<2){ setRate('rc_poly',v); if(!manual['rc_poly'])feed('rc_poly','<span class="on">🔗 라이브 '+v.toFixed(4)+'%/에폭</span> '+RF); if(typeof recompute==='function')recompute(); } } });
+    }).catch(function(){});
+    rpc(ANU_RPC,'eth_call',[{to:ANU_SLGNS,data:S_INDEX},'latest']).then(function(ix){ if(!ix)return; var idxNow=Number(BigInt(ix))/1e9, prev=lsGet(LS_ANU), nowt=Date.now();
+      if(prev&&prev.index>0&&idxNow>prev.index){ var eH=(nowt-prev.ts)/3600000; if(eH>=3){ var v=(Math.pow(idxNow/prev.index,12/eH)-1)*100; if(v>0&&v<2){ setRate('rc_anu',v); if(!manual['rc_anu'])feed('rc_anu','<span class="on">🔗 라이브 '+v.toFixed(4)+'%(index-delta)</span> '+RF); if(typeof recompute==='function')recompute(); } } }
+      if(!prev||idxNow>prev.index) lsSet(LS_ANU,{index:idxNow,ts:nowt}); }).catch(function(){});
+  }
+  window.PlannerRate={
     init:function(cfg){
-      ensureStyle(); cfg=cfg||{}; var recompute=cfg.recompute||function(){}; var manual={};
-      ['N_rc','LP_rc','LA_rc'].forEach(function(id){ var inp=document.getElementById(id); if(!inp)return; feedEl(id);
-        inp.addEventListener('input',function(){ manual[id]=true; var f=document.getElementById('feed_'+id); if(f)f.innerHTML='<span class="man">✏ 수동</span>'; }); });
-      ['LP_rs','LA_rs'].forEach(function(id){ if(document.getElementById(id)) infoEl(id); });
-      function setRate(id,pct){ if(manual[id])return; var inp=document.getElementById(id); if(inp&&pct!=null) inp.value=pct.toFixed(4); }
-      function feed(id,html){ var f=document.getElementById('feed_'+id); if(f)f.innerHTML=html; }
-      var RF='<span class="rf" onclick="LGNSRate.refresh()">🔄</span>';
-      function applyPolygon(p,cache){ setRate('N_rc',p.measured); setRate('LP_rc',p.measured);
-        var tag=cache?'<span class="man">⚠ 캐시</span>':'<span class="on">🔗 실측</span>';
-        var sched=(p.set!=null)?(' · 예정 '+p.set.toFixed(4)+'%'):''; var meta=(p.block?(' · #'+(p.block/1e6).toFixed(2)+'M'):'')+' · '+hm(p.ts);
-        feed('N_rc',tag+' '+(p.measured!=null?p.measured.toFixed(4):'—')+'%/에폭'+sched+meta+' '+RF);
-        feed('LP_rc',tag+' Polygon '+(p.measured!=null?p.measured.toFixed(4):'—')+'%'+sched+meta+' '+RF);
-        var lp=document.getElementById('info_LP_rs'); if(lp)lp.textContent='ℹ️ 리워드 발행: ClaimInterest '+(p.claim!=null?p.claim:'?')+'% + LonginusRewards '+(p.longinus!=null?p.longinus:'?')+'% /epoch — per-position 율은 풀·원금 의존(수동)'; }
-      function applyAnubis(a){ var epH=(parseFloat((document.getElementById('LA_hc')||{}).value)||7); var r=anubisRate(a.index,a.ts,epH);
-        if(r.pct!=null) setRate('LA_rc',r.pct);
-        var tag=r.pct!=null?'<span class="on">🔗 Anubis 실측</span>':'<span class="man">Anubis '+r.note+'</span>';
-        feed('LA_rc',tag+(r.pct!=null?(' '+r.pct.toFixed(4)+'%(index-delta '+r.note+')'):'')+(a.block?(' · #'+(a.block/1e6).toFixed(2)+'M'):'')+' '+RF);
-        var la=document.getElementById('info_LA_rs'); if(la)la.textContent='ℹ️ Anubis 추가보상은 온체인 단일 율 미확정 → 수동'; }
-      async function run(){
-        try{ var p=await fetchPolygon(); lsSet(LS_POLY,p); applyPolygon(p,false); }
-        catch(e){ var c=lsGet(LS_POLY); if(c) applyPolygon(c,true); else feed('N_rc','<span class="man">실측 실패 — 수동값</span>'); }
-        try{ var a=await fetchAnubisIndex(); applyAnubis(a); }
-        catch(e){ feed('LA_rc','<span class="man">Anubis 조회 실패 — 수동값</span>'); }
-        try{ recompute(); }catch(e){}
+      ensureStyle(); cfg=cfg||{}; var recompute=cfg.recompute||function(){};
+      IDS.forEach(function(id){ var inp=$(id); if(!inp)return; feedEl(id);
+        inp.addEventListener('input',function(){ manual[id]=true; feed(id,'<span class="man">✏ 수동</span>'); }); });
+      function run(){
+        fetch('./rates.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(j){
+          if(j){ applyJson(j,recompute); } else { feed('rc_poly','<span class="man">rates.json 없음 — 라이브/수동</span>'); }
+          liveOverlay(recompute);
+        }).catch(function(){ liveOverlay(recompute); });
       }
-      window.LGNSRate.refresh=function(){ Object.keys(manual).forEach(function(k){delete manual[k];}); run(); };
+      window.PlannerRate.refresh=function(){ manual={}; IDS.forEach(function(id){feed(id,'');}); run(); };
       run();
     }
   };
 })();
 </script>
-<script>(function(){function go(){LGNSRate.init({recompute:function(){if(typeof calc==='function')calc();}});}if(document.readyState==='loading')window.addEventListener('DOMContentLoaded',go);else go();})();</script>
+<script>(function(){function go(){PlannerRate.init({recompute:function(){if(typeof calc==='function')calc();}});}if(document.readyState==='loading')window.addEventListener('DOMContentLoaded',go);else go();})();</script>
 </body>
 </html>
