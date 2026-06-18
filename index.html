@@ -4,6 +4,12 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>LGNS Staking Planner</title>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#0c0f0d"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-title" content="Staking ETA"/>
+<link rel="apple-touch-icon" href="icons/apple-touch-180.png"/>
 <style>
   :root{
     --bg:#0c0f0d; --panel:#121714; --panel2:#18211c; --green:#9FE870; --green-dim:#6fae4f;
@@ -573,5 +579,6 @@ calc();
 })();
 </script>
 <script>(function(){function go(){PlannerRate.init({recompute:function(){if(typeof calc==='function')calc();}});}if(document.readyState==='loading')window.addEventListener('DOMContentLoaded',go);else go();})();</script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}</script>
 </body>
 </html>
