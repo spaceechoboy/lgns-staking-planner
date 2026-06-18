@@ -63,7 +63,7 @@
 <body>
 <div class="wrap">
   <h1>스테이킹 도달일정 계산기 — Polygon + Anubis · PWA</h1>
-  <p class="sub">지갑별 독립 트랙 · 장기 이율은 체인별 분리(Polygon/Anubis) · 일반은 두 체인 공통(추가보상 없음) · 향후 2년 곡선.
+  <p class="sub">지갑별 독립 트랙 · 복리 리베이스는 체인당 1율(정상·장기 공통) · 360/600 추가보상은 상품별 실측 자동 · 향후 2년 곡선.
     이율은 <b>%</b> 단위로 입력. 가정값 기반 명목 시뮬레이션이며 실제 시장가 유지와는 별개.</p>
 
   <div class="grid">
@@ -73,32 +73,36 @@
       <div class="card">
         <h2>전역 설정</h2>
 
-        <h3 class="poly">◆ Polygon 장기 스테이킹 이율 (복리 리베이스 + 추가보상 단리)</h3>
-        <div class="row4">
-          <div><label>복리 r (%)</label><input id="LP_rc" type="number" step="0.0001" value="0.1666"/></div>
-          <div><label>복리 h(시간)</label><input id="LP_hc" type="number" value="7"/></div>
-          <div><label>단리 r (%)</label><input id="LP_rs" type="number" step="0.0001" value="0.195"/></div>
-          <div><label>단리 h(시간)</label><input id="LP_hs" type="number" value="12"/></div>
-        </div>
-
-        <h3 class="anub">◆ Anubis 장기 스테이킹 이율 (복리 리베이스 + 추가보상 단리)</h3>
-        <div class="row4">
-          <div><label>복리 r (%)</label><input id="LA_rc" type="number" step="0.0001" value="0.1666"/></div>
-          <div><label>복리 h(시간)</label><input id="LA_hc" type="number" value="7"/></div>
-          <div><label>단리 r (%)</label><input id="LA_rs" type="number" step="0.0001" value="0.175"/></div>
-          <div><label>단리 h(시간)</label><input id="LA_hs" type="number" value="12"/></div>
-        </div>
-
-        <h3>일반 스테이킹 이율 (일반 리베이스만 · 추가보상 없음 · 두 체인 공통)</h3>
+        <h3 class="poly">◆ Polygon 복리 리베이스 (정상·장기 공통)</h3>
         <div class="row2">
-          <div><label>복리 r (%)</label><input id="N_rc" type="number" step="0.0001" value="0.1666"/></div>
-          <div><label>복리 h(시간)</label><input id="N_hc" type="number" value="7"/></div>
+          <div><label>복리 r (%)</label><input id="rc_poly" type="number" step="0.0001" value="0.1487"/></div>
+          <div><label>복리 h(시간)</label><input id="hc_poly" type="number" value="6"/></div>
+        </div>
+        <h3 class="poly">◆ Polygon 추가보상 단리 (상품별)</h3>
+        <div class="row4">
+          <div><label>360 r (%)</label><input id="rs_p360" type="number" step="0.0001" value="0.1200"/></div>
+          <div><label>600 r (%)</label><input id="rs_p600" type="number" step="0.0001" value="0.0783"/></div>
+          <div><label>단리 h(시간)</label><input id="hs_poly" type="number" value="12"/></div>
+          <div></div>
+        </div>
+
+        <h3 class="anub">◆ Anubis 복리 리베이스 (정상·장기 공통)</h3>
+        <div class="row2">
+          <div><label>복리 r (%)</label><input id="rc_anu" type="number" step="0.0001" value="0.1500"/></div>
+          <div><label>복리 h(시간)</label><input id="hc_anu" type="number" value="12"/></div>
+        </div>
+        <h3 class="anub">◆ Anubis 추가보상 단리 (상품별)</h3>
+        <div class="row4">
+          <div><label>360 r (%)</label><input id="rs_a360" type="number" step="0.0001" value="0.1500"/></div>
+          <div><label>600 r (%)</label><input id="rs_a600" type="number" step="0.0001" value="0.1950"/></div>
+          <div><label>단리 h(시간)</label><input id="hs_anu" type="number" value="12"/></div>
+          <div></div>
         </div>
 
         <h3>단리 보상 재투자 (장기 → 일반 스테이킹 복리화)</h3>
         <label style="display:flex;align-items:center;gap:8px;">
           <input id="ri_on" type="checkbox" style="width:auto;" checked/>
-          장기 스테이킹의 단리 보상을 모아 일반 스테이킹에 재투자
+          장기 스테이킹의 단리 보상을 모아 정상 스테이킹(=체인 리베이스)으로 재투자
         </label>
         <div class="row2" style="margin-top:6px;">
           <div><label>재투자 주기 (일)</label><input id="ri_every" type="number" step="0.5" value="2"/></div>
@@ -137,9 +141,11 @@
           <div style="margin-top:10px;">
             <label>대상 버킷</label>
             <select id="d_bucket">
-              <option value="pl">Polygon · 장기</option>
+              <option value="p360">Polygon · 360</option>
+              <option value="p600">Polygon · 600</option>
               <option value="pn">Polygon · 일반</option>
-              <option value="al">Anubis · 장기</option>
+              <option value="a360">Anubis · 360</option>
+              <option value="a600">Anubis · 600</option>
               <option value="an" selected>Anubis · 일반</option>
             </select>
             <div class="row2">
@@ -195,38 +201,39 @@
 // ===== 코어 =====
 // r은 소수(0.001666). rs/hs 없으면 단리 0(일반 = 추가보상 없음).
 // reinv: 단리 보상 재투자 설정 {on, everyH, norm} — norm은 재투자처(일반 스테이킹) 복리 이율.
-function bucketBalance(P, r, t, periodic, reinv){
-  if(!P) return 0;
-  const hs = r.hs || 1, rs = r.rs || 0;
-  let tc=t;
-  if(periodic){ tc=Math.floor(t/r.hc)*r.hc; }
-  const comp = P*Math.pow(1+r.rc, tc/r.hc);   // 원금 복리항 (항상 유지)
-
-  if(rs<=0) return comp;                       // 단리 없음(일반 버킷)
-
-  if(reinv && reinv.on){
-    // 단리 보상을 everyH마다 걷어 일반 스테이킹(reinv.norm 복리)에 재투자
-    const ev=reinv.everyH, N=reinv.norm;
-    const chunk = P*rs*(ev/hs);                // 구간당 발생 보상
-    let acc=0;
-    for(let k=1; k*ev <= t+1e-9; k++){
-      const age = t - k*ev;                    // 입금 후 경과
-      const ac = periodic? Math.floor(age/N.hc)*N.hc : age;
-      acc += chunk*Math.pow(1+N.rc, ac/N.hc);
+// ── 순수 CORE (Task 1 검증: rate 디코드 + 360/600 성장) ──
+const CORE = {
+  decUint(hex){ return BigInt(hex); },
+  decEpochDistribute(hex){ const h=hex.slice(2); return BigInt('0x'+h.slice(192,256)); },
+  decInfoRate(hex){ return parseInt(hex.slice(2).slice(0,64),16); },
+  measuredPct(dist, circ){ return circ>0n ? Number(dist)/Number(circ)*100 : null; },
+  setPctFromInfo(r1e6){ return r1e6/1e6*100; },
+  indexDeltaPct(a,b,eH,epH){ if(!(b>0)||!(eH>0)||!(a>b)) return null; return (Math.pow(a/b,epH/eH)-1)*100; },
+  accumDeltaPct(now,prev,depoch,denom){ if(!(depoch>0)) return null; const d=now-prev; if(d<0n) return 0; return Number(d)/depoch/Number(denom)*100; },
+  bucket(P0, rc, hc, rs, hs, t, periodic, reinv){
+    if(!P0) return 0;
+    let tc=t; if(periodic){ tc=Math.floor(t/(hc||1))*(hc||1); }
+    const comp = P0*Math.pow(1+rc, tc/(hc||1));
+    if(!(rs>0)) return comp;
+    if(reinv && reinv.on){
+      const ev=reinv.everyH, N=reinv.norm, chunk=P0*rs*(ev/(hs||1));
+      let acc=0;
+      for(let k=1; k*ev <= t+1e-9; k++){ const age=t-k*ev; const ac=periodic?Math.floor(age/(N.hc||1))*(N.hc||1):age; acc+=chunk*Math.pow(1+N.rc, ac/(N.hc||1)); }
+      return comp+acc;
     }
-    return comp+acc;
-  }
-  // 기본: 단리 선형 누적
-  let ts=t; if(periodic){ ts=Math.floor(t/hs)*hs; }
-  return comp + P*rs*(ts/hs);
-}
-// 지갑의 한 체인 잔고(개수) = 장기버킷(체인별 이율) + 일반버킷(공통 이율, 추가보상 없음)
+    let ts=t; if(periodic){ ts=Math.floor(t/(hs||1))*(hs||1); }
+    return comp + P0*rs*(ts/(hs||1));
+  },
+};
+// 한 체인 잔고 = 360버킷 + 600버킷 + 정상버킷 (복리는 체인 리베이스 공통, 추가보상만 상품별)
 function chainBalance(w, chain, t, R, periodic){
-  const lk = chain==='poly'? 'pl':'al';
-  const nk = chain==='poly'? 'pn':'an';
-  const longR = chain==='poly'? R.longPoly : R.longAnub;
-  const reinv = R.reinv && R.reinv.on ? {on:true, everyH:R.reinv.everyH, norm:R.norm} : null;
-  return bucketBalance(w[lk], longR, t, periodic, reinv) + bucketBalance(w[nk], R.norm, t, periodic, null);
+  const c = chain==='poly'? R.poly : R.anub;
+  const reinv = R.reinv && R.reinv.on ? {on:true, everyH:R.reinv.everyH, norm:{rc:c.rc, hc:c.hc}} : null;
+  const k = chain==='poly'? {b360:'p360',b600:'p600',bn:'pn'} : {b360:'a360',b600:'a600',bn:'an'};
+  const long360 = CORE.bucket(w[k.b360], c.rc, c.hc, c.rs360, c.hs, t, periodic, reinv);
+  const long600 = CORE.bucket(w[k.b600], c.rc, c.hc, c.rs600, c.hs, t, periodic, reinv);
+  const normal  = CORE.bucket(w[k.bn],   c.rc, c.hc, 0,        1,    t, periodic, null);
+  return long360 + long600 + normal;
 }
 function walletBalance(w, t, R, periodic){
   return chainBalance(w,'poly',t,R,periodic) + chainBalance(w,'anub',t,R,periodic);
@@ -266,7 +273,7 @@ function distValueEqual(ex,D,pe,pn,intOnly){const n=ex.length,tv=ex.reduce((a,e)
 
 // ===== 상태 =====
 let wallets = [
-  {name:'지갑1', pl:0, pn:0, al:0, an:0},
+  {name:'지갑1', p360:0, p600:0, pn:0, a360:0, a600:0, an:0},
 ];
 const num=id=>parseFloat(document.getElementById(id).value)||0;
 
@@ -274,10 +281,9 @@ const num=id=>parseFloat(document.getElementById(id).value)||0;
 const pct=id=>num(id)/100;
 function readRates(){
   return {
-    longPoly:{rc:pct('LP_rc'),hc:num('LP_hc'),rs:pct('LP_rs'),hs:num('LP_hs')},
-    longAnub:{rc:pct('LA_rc'),hc:num('LA_hc'),rs:pct('LA_rs'),hs:num('LA_hs')},
-    norm:{rc:pct('N_rc'),hc:num('N_hc')},  // 추가보상 없음 (rs/hs 생략 → 0)
-    reinv:{on:document.getElementById('ri_on').checked, everyH:num('ri_every')*24},
+    poly:{ rc:pct('rc_poly'), hc:num('hc_poly'), rs360:pct('rs_p360'), rs600:pct('rs_p600'), hs:num('hs_poly') },
+    anub:{ rc:pct('rc_anu'),  hc:num('hc_anu'),  rs360:pct('rs_a360'), rs600:pct('rs_a600'), hs:num('hs_anu') },
+    reinv:{ on:document.getElementById('ri_on').checked, everyH:num('ri_every')*24 },
   };
 }
 
@@ -291,14 +297,18 @@ function renderWallets(){
         <button class="del" ${wallets.length<=1?'disabled style="opacity:.3;"':''}>삭제</button>
       </div>
       <div class="chainlbl poly">◆ Polygon</div>
-      <div class="row2">
-        <div><label>장기 개수</label><input class="f" data-k="pl" type="number" value="${w.pl}"/></div>
+      <div class="row4">
+        <div><label>360 개수</label><input class="f" data-k="p360" type="number" value="${w.p360}"/></div>
+        <div><label>600 개수</label><input class="f" data-k="p600" type="number" value="${w.p600}"/></div>
         <div><label>일반 개수</label><input class="f" data-k="pn" type="number" value="${w.pn}"/></div>
+        <div></div>
       </div>
       <div class="chainlbl anub">◆ Anubis</div>
-      <div class="row2">
-        <div><label>장기 개수</label><input class="f" data-k="al" type="number" value="${w.al}"/></div>
+      <div class="row4">
+        <div><label>360 개수</label><input class="f" data-k="a360" type="number" value="${w.a360}"/></div>
+        <div><label>600 개수</label><input class="f" data-k="a600" type="number" value="${w.a600}"/></div>
         <div><label>일반 개수</label><input class="f" data-k="an" type="number" value="${w.an}"/></div>
+        <div></div>
       </div>
     </div>`).join('');
 
@@ -313,7 +323,7 @@ function renderWallets(){
 }
 
 document.getElementById('addw').addEventListener('click',()=>{
-  wallets.push({name:'지갑'+(wallets.length+1),pl:0,pn:0,al:0,an:0});renderWallets();});
+  wallets.push({name:'지갑'+(wallets.length+1),p360:0,p600:0,pn:0,a360:0,a600:0,an:0});renderWallets();});
 
 // segmented 모드
 (function(){const el=document.getElementById('pmode');
@@ -410,8 +420,8 @@ function calc(){
 
   document.getElementById('note').innerHTML=
     '체인별(Polygon/Anubis) 개수를 따로 누적해 합산한 값이 최종 결과. '+
-    '<b>장기 스테이킹</b> 이율은 Polygon·Anubis 각각 별도(복리+추가보상 단리), '+
-    '<b>일반 스테이킹</b>은 두 체인 공통 일반 리베이스만(추가보상 없음). 가정단가는 공통. '+
+    '<b>복리 리베이스</b>는 체인당 1율(정상·장기 공통 적용), <b>360/600 차이는 추가보상(단리)뿐</b>. '+
+    '<b>정상 스테이킹</b>은 해당 체인 리베이스 적용. 가정단가는 공통. '+
     '<b>단리 보상 재투자</b> ON 시: 장기 버킷의 단리 보상을 설정 주기마다 걷어 일반 스테이킹(복리)에 입금 → '+
     '각 보상 청크가 입금 시점부터 복리 성장(원금은 그대로 유지). 보상이 더 이상 놀지 않아 도달이 빨라짐. '+
     'r·보상률은 락업 전 기간 <b>고정 가정</b>이며 <b>명목 토큰수 도달 ≠ 실제 시장가 유지</b>. '+
