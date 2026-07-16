@@ -1,5 +1,5 @@
 /* LGNS Staking Planner service worker — 앱셸 network-first, 외부 RPC·rates.json 신선도 우선 */
-const CACHE = 'lgns-planner-v2';
+const CACHE = 'lgns-planner-v3';
 const SHELL = ['./', './index.html', './manifest.json', './icons/icon-192.png', './icons/icon-512.png'];
 
 self.addEventListener('install', e => {
