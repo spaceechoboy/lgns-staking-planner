@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "generated": "2026-07-27T10:00:41Z",
+  "generated": "2026-07-27T14:48:12Z",
   "poly": {
-    "block": 90960963,
+    "block": 90972464,
     "rebase": {
       "pctPerEpoch": 0.1452,
       "sched": 0.1369,
@@ -26,7 +26,7 @@
     }
   },
   "anubis": {
-    "block": 9618707,
+    "block": 9635955,
     "rebase": {
       "pctPerEpoch": 0.1452,
       "epochH": 6.0,
