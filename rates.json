@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "generated": "2026-08-09T02:06:27Z",
+  "generated": "2026-08-09T07:03:34Z",
   "poly": {
-    "block": 91690774,
+    "block": 91702659,
     "rebase": {
       "pctPerEpoch": 0.1318,
       "sched": 0.1244,
@@ -12,41 +12,41 @@
       "long360": {
         "pctPerEpoch": 0.08,
         "epochH": 12,
-        "globalIndex": "250800000",
-        "epoch": 2430,
+        "globalIndex": "251600000",
+        "epoch": 2431,
         "denom": "1000000000"
       },
       "long600": {
-        "pctPerEpoch": 0.0611,
+        "pctPerEpoch": 0.0607,
         "epochH": 12,
-        "globalIndex": "580042000",
-        "epoch": 2430,
+        "globalIndex": "580649000",
+        "epoch": 2431,
         "denom": "1000000000"
       }
     }
   },
   "anubis": {
-    "block": 10713219,
+    "block": 10731042,
     "rebase": {
-      "pctPerEpoch": 0.1328,
+      "pctPerEpoch": 0.1318,
       "epochH": 6.0,
-      "index": 974.705279,
-      "epoch": 2594,
-      "lut": 1786223707
+      "index": 975.989948,
+      "epoch": 2595,
+      "lut": 1786245312
     },
     "extra": {
       "long360": {
         "pctPerEpoch": 0.15,
         "epochH": 12,
-        "globalIndex": "293500000",
-        "epoch": 2430,
+        "globalIndex": "295000000",
+        "epoch": 2431,
         "denom": "1000000000"
       },
       "long600": {
         "pctPerEpoch": 0.195,
         "epochH": 12,
-        "globalIndex": "377650000",
-        "epoch": 2430,
+        "globalIndex": "379600000",
+        "epoch": 2431,
         "denom": "1000000000"
       }
     }
