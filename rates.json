@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "generated": "2026-09-19T10:39:24Z",
+  "generated": "2026-09-19T15:42:28Z",
   "poly": {
-    "block": 94072887,
+    "block": 94085007,
     "rebase": {
-      "pctPerEpoch": 0.1105,
+      "pctPerEpoch": 0.0999,
       "sched": 0.0944,
       "epochH": 6
     },
@@ -26,13 +26,13 @@
     }
   },
   "anubis": {
-    "block": 14285320,
+    "block": 14303498,
     "rebase": {
       "pctPerEpoch": 0.1105,
-      "epochH": 5.99,
-      "index": 1205.861847,
-      "epoch": 2760,
-      "lut": 1789809314
+      "epochH": 6.0,
+      "index": 1207.194038,
+      "epoch": 2761,
+      "lut": 1789830919
     },
     "extra": {
       "long360": {
